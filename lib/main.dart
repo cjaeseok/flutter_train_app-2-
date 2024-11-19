@@ -1,104 +1,43 @@
 import 'package:flutter/material.dart';
-import 'StationListPage.dart';
+import 'HomePage.dart';
 
-class Station {
-  final String name;
-
-  Station(this.name);
+void main() {
+  runApp(MyApp());
 }
 
-class HomePage extends StatefulWidget {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home : HomePage(),
-    );
-  }
-  HomePageState createState() => HomePageState();
-}
-
-class HomePageState extends State<HomePage> {
-  
-  String? selectedDeparture;
-  String? selectedDestination;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('기차 예매'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: DropdownButtonFormField<String>(
-                    value: selectedDeparture,
-                    items: stations.map((Station station) {
-                      return DropdownMenuItem<String>(
-                        value: station.name,
-                        child: Text(station.name),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        selectedDeparture = value;
-                      });
-                    },
-                    decoration: InputDecoration(labelText: '출발역'),
-                  ),
-                ),
-                SizedBox(width: 20),
-                Expanded(
-                  child: DropdownButtonFormField<String>(
-                    value: selectedDestination,
-                    items: stations.map((Station station) {
-                      return DropdownMenuItem<String>(
-                        value: station.name,
-                        child: Text(station.name),
-                      );
-                    }).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        selectedDestination = value;
-                      });
-                    },
-                    decoration: InputDecoration(labelText: '도착역'),
-                    
-                    // ... 도착역 선택 부분도 동일하게 구현
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // 좌석 선택 로직 구현 (예: 다른 화면으로 이동)
-                print('좌석 선택 버튼 클릭: $selectedDeparture -> $selectedDestination');
-                // Navigator.push(context, MaterialPageRoute(builder: (context) => SeatSelectionScreen()));
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.purple,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(20),
-                ),
-              ),
-              child: Text('좌석 선택'),
-            ),
-          ],
+      title: '기차 예매 앱',
+      theme: ThemeData(
+        primarySwatch: Colors.purple,
+        brightness: Brightness.light, // 라이트 모드
+        scaffoldBackgroundColor: Colors.grey[200],
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.white,
+          titleTextStyle: TextStyle(color: Colors.black, fontSize: 20),
+          iconTheme: IconThemeData(color: Colors.black),
         ),
       ),
+      darkTheme: ThemeData(
+        primarySwatch: Colors.purple,
+        brightness: Brightness.dark, // 다크 모드
+        scaffoldBackgroundColor: Colors.black,
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.grey[900],
+          titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
+          iconTheme: IconThemeData(color: Colors.white),
+        ),
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Colors.purple,
+            foregroundColor: Colors.white,
+          ),
+        ),
+      ),
+      themeMode: ThemeMode.system, // 시스템 설정을 따라감
+      home: HomePage(),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: HomePage(),
-  ));
 }
